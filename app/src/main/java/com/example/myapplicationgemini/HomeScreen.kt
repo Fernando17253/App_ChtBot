@@ -48,7 +48,7 @@ fun HomeScreen(onNavigateToChat: () -> Unit) {
     val context = LocalContext.current
     Button(
       onClick = {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/enlace-proyecto"))
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Fernando17253/App_ChtBot.git"))
         context.startActivity(intent)
       },
       colors = ButtonDefaults.buttonColors(
