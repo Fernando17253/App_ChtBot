@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">My Application gemini</string>
+    <string name="action_go">Enviar</string>
+    <string name="baking_title">AI Gemini</string>
+    <string name="results_placeholder">(Los resultados apareceran aqui)</string>
+    <string name="label_prompt">Ingrese sus preguntas en este espacio</string>
+    <string name="prompt_placeholder"> </string>
+</resources>
