@@ -26,7 +26,7 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 fun BakingScreen(
-  onNavigateBack: () -> Unit,  // Función para regresar a la pantalla inicial
+  onNavigateBack: () -> Unit,
   bakingViewModel: BakingViewModel = viewModel()
 ) {
   val placeholderPrompt = stringResource(R.string.prompt_placeholder)
@@ -124,13 +124,12 @@ fun BakingScreen(
               .fillMaxWidth()
               .padding(8.dp)
           ) {
-            // Pregunta con fondo azul claro
             Card(
               modifier = Modifier
-                .fillMaxWidth(0.75f) // Ajustar el ancho de la tarjeta
-                .align(Alignment.End),  // Alinea la pregunta a la derecha
+                .fillMaxWidth(0.75f)
+                .align(Alignment.End),
               colors = CardDefaults.cardColors(
-                containerColor = Color(0xFFBBDEFB) // Fondo azul claro
+                containerColor = Color(0xFFBBDEFB)
               )
             ) {
               Column(modifier = Modifier.padding(8.dp)) {
@@ -140,7 +139,7 @@ fun BakingScreen(
                   color = MaterialTheme.colorScheme.primary
                 )
                 Text(
-                  text = item.timestamp.format(formatter),  // Mostrar la fecha y hora
+                  text = item.timestamp.format(formatter),
                   style = MaterialTheme.typography.bodySmall,
                   color = MaterialTheme.colorScheme.onSurface
                 )
@@ -149,23 +148,50 @@ fun BakingScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Respuesta con fondo verde claro
             Card(
               modifier = Modifier
-                .fillMaxWidth(0.75f) // Ajustar el ancho de la tarjeta
-                .align(Alignment.Start),  // Alinea la respuesta a la izquierda
+                .fillMaxWidth(0.75f)
+                .align(Alignment.Start),
               colors = CardDefaults.cardColors(
-                containerColor = Color(0xFFC8E6C9) // Fondo verde claro
+                containerColor = Color(0xFFC8E6C9)
               )
             ) {
               Column(modifier = Modifier.padding(8.dp)) {
+                Row(
+                  modifier = Modifier.fillMaxWidth(),
+                  verticalAlignment = Alignment.CenterVertically
+                ) {
+                  Text(
+                    text = "Respuesta: ${item.answer}",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.weight(1f)
+                  )
+
+                  // Botón para reproducir la respuesta en audio
+                  IconButton(
+                    onClick = { bakingViewModel.speakText(item.answer) }
+                  ) {
+                    Icon(
+                      painter = painterResource(R.drawable.ic_audio), // Icono para reproducir audio
+                      contentDescription = "Reproducir respuesta"
+                    )
+                  }
+
+                  // Botón de detener
+                  IconButton(
+                    onClick = { bakingViewModel.stopText() }
+                  ) {
+                    Icon(
+                      painter = painterResource(R.drawable.ic_stop),
+                      contentDescription = "Detener respuesta"
+                    )
+                  }
+
+                }
+
                 Text(
-                  text = "Respuesta: ${item.answer}",
-                  style = MaterialTheme.typography.bodyMedium,
-                  color = MaterialTheme.colorScheme.onSurface
-                )
-                Text(
-                  text = item.timestamp.format(formatter),  // Mostrar la fecha y hora
+                  text = item.timestamp.format(formatter),
                   style = MaterialTheme.typography.bodySmall,
                   color = MaterialTheme.colorScheme.onSurface
                 )
@@ -175,6 +201,7 @@ fun BakingScreen(
         }
       }
     }
+
 
     Row(
       modifier = Modifier
@@ -198,12 +225,12 @@ fun BakingScreen(
           bakingViewModel.sendPrompt(prompt)
           prompt = ""
         },
-        enabled = prompt.isNotEmpty() && isWifiConnected() // Desactivar si no hay Wi-Fi
+        enabled = prompt.isNotEmpty() && isWifiConnected()
       ) {
         Icon(
-          painter = painterResource(R.drawable.send),  // Ícono de enviar
+          painter = painterResource(R.drawable.send),
           contentDescription = "Enviar mensaje",
-          modifier = Modifier.size(33.dp),  // Cambia el tamaño del ícono
+          modifier = Modifier.size(33.dp),
           tint = if (prompt.isNotEmpty() && isWifiConnected()) MaterialTheme.colorScheme.primary else Color.Gray  // Cambia el color según el estado del texto y Wi-Fi
         )
       }
@@ -219,13 +246,13 @@ fun BakingScreen(
             Toast.makeText(context, "Grabación detenida", Toast.LENGTH_SHORT).show()
           }
         },
-        enabled = isWifiConnected()  // Desactivar si no hay Wi-Fi
+        enabled = isWifiConnected()
       ) {
         Icon(
           painter = painterResource(R.drawable.mic),  // Ícono del micrófono
           contentDescription = if (isRecording) "Detener grabación" else "Grabar",
           modifier = Modifier.size(40.dp),  // Tamaño del ícono
-          tint = if (isRecording) Color.Green else if (isWifiConnected()) MaterialTheme.colorScheme.primary else Color.Gray  // Cambia el color según el estado de grabación y Wi-Fi
+          tint = if (isRecording) Color.Green else if (isWifiConnected()) MaterialTheme.colorScheme.primary else Color.Gray
         )
       }
     }
